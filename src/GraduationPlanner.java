@@ -11,6 +11,7 @@ public class GraduationPlanner {
 
     public static void main(String[] args) {
         new GraduationPlanner();
+        System.out.println("hi");
     }
 
     public GraduationPlanner(){
