@@ -18,8 +18,10 @@ public class GraduationPlanner {
         canvas = new CanvasWindow("Graduation Planner", CANVAS_WIDTH, CANVAS_HEIGHT);
         canvas.setBackground(CANVAS_COLOR);
         courses = new CourseManager(canvas);
-        courses.drag(canvas);
-        canvas.draw();
+      semesters = new SemesterManager(canvas);
+      courses.drag(canvas);
+      canvas.draw();
+        
     }
 
 
