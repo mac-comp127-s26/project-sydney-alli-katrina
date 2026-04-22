@@ -7,17 +7,18 @@ public class GraduationPlanner {
     private static final Color CANVAS_COLOR = Color.LIGHT_GRAY;
 
     private CanvasWindow canvas;
-    private CourseManager classes;
+    private CourseManager courses;
+    private SemesterManager semesters;
 
     public static void main(String[] args) {
         new GraduationPlanner();
-        System.out.println("hi");
     }
 
     public GraduationPlanner(){
         canvas = new CanvasWindow("Graduation Planner", CANVAS_WIDTH, CANVAS_HEIGHT);
         canvas.setBackground(CANVAS_COLOR);
-        classes = new CourseManager(canvas);
+        courses = new CourseManager(canvas);
+        semesters = new SemesterManager(canvas);
         canvas.draw();
     }
 
