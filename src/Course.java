@@ -1,3 +1,4 @@
+
 import java.awt.Color;
 
 import edu.macalester.graphics.GraphicsGroup;
@@ -12,9 +13,25 @@ public class Course {
     private Rectangle course = new Rectangle(x,y,width,height);
     private boolean isBeingHovered;
     private boolean isBeingDragged = false;
-  
+  public ArrayList<String> distributions= new ArrayList<>();
+  public String courseName;
+  //social sciences 8 credits(two semesters)
+//natural sciences and mathematics 
+//humanities and fine arts 12 credits 3 semester
+//Internationalism
+//US ID
+//Q3 or two Q2s or a Q2 and a Q1 or 3 Q1s
+//Writng: 3 courses at least 1 WA and no more than 1 can be WP
+// equivalent of 4 semesters of language
+public Course(String courseName, int x, int y){
+    courseName = this.courseName;
+    x = this.x;
+    y = this.y;
+    GraphicsGroup courseIcon = createIcon();
 
-    public Course(GraphicsGroup graphicsGroup, CanvasWindow canvas){
+}
+  
+    public static void createIcon(GraphicsGroup graphicsGroup, CanvasWindow canvas){
         course.setFillColor(Color.RED);
         graphicsGroup.add(course);
          canvas.onMouseMove(event -> {
@@ -65,6 +82,12 @@ public class Course {
     public boolean isDragging(){
         return isBeingDragged;
     }
+  
+  public String getName(){
+    return courseName;
+}
+
 
  
-}
+
+
