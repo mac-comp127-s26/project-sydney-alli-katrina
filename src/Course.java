@@ -1,19 +1,18 @@
 
 import java.awt.Color;
+import java.util.ArrayList;
 
+import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
-import edu.macalester.graphics.CanvasWindow;
 public class Course {
-    private double x = 50;
-    private double y = 50;
     private double width = 200;
-    private double height = 50;
-    private Rectangle course = new Rectangle(x,y,width,height);
+    private double height = 20;
+    private Rectangle courseRectangle;
     private boolean isBeingHovered;
     private boolean isBeingDragged = false;
-  public ArrayList<String> distributions= new ArrayList<>();
+    public ArrayList<String> distributions= new ArrayList<>();
   public String courseName;
   //social sciences 8 credits(two semesters)
 //natural sciences and mathematics 
@@ -23,22 +22,23 @@ public class Course {
 //Q3 or two Q2s or a Q2 and a Q1 or 3 Q1s
 //Writng: 3 courses at least 1 WA and no more than 1 can be WP
 // equivalent of 4 semesters of language
-public Course(String courseName, int x, int y){
+public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup, CanvasWindow canvas){
     courseName = this.courseName;
-    x = this.x;
-    y = this.y;
-    GraphicsGroup courseIcon = createIcon();
+    // x = this.x;
+    // y = this.y;
+    createIcon(x,y, graphicsGroup, canvas);
 
 }
   
-    public static void createIcon(GraphicsGroup graphicsGroup, CanvasWindow canvas){
-        course.setFillColor(Color.RED);
-        graphicsGroup.add(course);
+    public void createIcon(double x, double y, GraphicsGroup graphicsGroup, CanvasWindow canvas){
+        courseRectangle = new Rectangle(x,y,width,height);
+        courseRectangle.setFillColor(Color.RED);
+        graphicsGroup.add(courseRectangle);
          canvas.onMouseMove(event -> {
                 Point mousePos = event.getPosition();
                 double posX = mousePos.getX();
                 double posY = mousePos.getY();
-                if(posX > course.getX() && posX < course.getX()+width && posY > course.getY() && posY < course.getY()+height){
+                if(posX > courseRectangle.getX() && posX < courseRectangle.getX()+width && posY > courseRectangle.getY() && posY < courseRectangle.getY()+height){
                     isBeingHovered= true;
                 }
                 else{
@@ -48,11 +48,11 @@ public Course(String courseName, int x, int y){
     }
 
     public void setCenter(Point point){
-        course.setCenter(point);
+        courseRectangle.setCenter(point);
     }
 
       public void setCenter(double x, double y){
-        course.setCenter(x,y);
+        courseRectangle.setCenter(x,y);
     }
 
 
@@ -61,17 +61,17 @@ public Course(String courseName, int x, int y){
     }
     
     public double getCenterX(){
-        return course.getCenter().getX();
+        return courseRectangle.getCenter().getX();
     }
 
     public double getCenterY(){
-        return course.getCenter().getY();
+        return courseRectangle.getCenter().getY();
     }
 
 
-    public boolean isInBounds(double sidebarWidth, double sidebarHeight) {
-    return getCenterX() > 0 && getCenterX() < sidebarWidth 
-        && getCenterY() > 0 && getCenterY() < sidebarHeight;
+    public boolean isInBounds(double startX, double startY, double farX, double farY) {
+    return getCenterX() > startX && getCenterX() < farX 
+        && getCenterY() > startY && getCenterY() < farY;
 }
     
 
@@ -86,7 +86,7 @@ public Course(String courseName, int x, int y){
   public String getName(){
     return courseName;
 }
-
+}
 
  
 

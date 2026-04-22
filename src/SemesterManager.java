@@ -53,4 +53,22 @@ public SemesterManager(CanvasWindow canvas){
         panel = new GraphicsGroup(canvas.getWidth() * 0.25, 0);
         panel.add(background);
     }
+
+    public boolean courseOverlaps(Course course){
+        for (Semester s : semesters) {
+            if(course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight())){
+                s.getCourses().add(course);
+                return true;
+            } 
+        }return false;
+    }
+
+    public boolean checkRemove(Course course){
+        for (Semester s : semesters) {
+            if(!course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight()) && s.getCourses().contains(course)){
+                s.getCourses().remove(course);
+                return true;
+            } 
+        }return false;
+    }
 }

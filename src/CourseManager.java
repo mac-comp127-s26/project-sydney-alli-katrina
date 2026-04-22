@@ -22,7 +22,7 @@ public class CourseManager {
         sideBarBackground.setFillColor(color);
         sidebar = new GraphicsGroup();
         sidebar.add(sideBarBackground);
-        Course course = new Course(sidebar, canvas);
+        Course course = new Course("test", 100,100,sidebar, canvas);
         listOfCourses.add(course);
         canvas.add(sidebar);
 
@@ -49,13 +49,15 @@ public class CourseManager {
                 if (course.isDragging()) {
                     course.setDragging(false);
 
-                    if (course.isInBounds(width, canvas.getHeight())) {
+                    if (course.isInBounds(0,0,width, canvas.getHeight())) {
                         course.setCenter(sidebar.getCenter());
+                    }
+                  
                     } else {
                         course.setCenter(canvas.getCenter());
                     }
                 }
-            }
+            
         });
 
 
