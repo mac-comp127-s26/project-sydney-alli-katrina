@@ -12,6 +12,7 @@ public class Course {
     private Rectangle courseRectangle;
     private boolean isBeingHovered;
     private boolean isBeingDragged = false;
+    private boolean selectedCourse = false;
     public ArrayList<String> distributions= new ArrayList<>();
   public String courseName;
   //social sciences 8 credits(two semesters)
@@ -80,9 +81,13 @@ public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup
     }
 
     public boolean isDragging(){
+        selectedCourse = true;
         return isBeingDragged;
+        
     }
-  
+  public boolean isSelectedCourse(){
+    return selectedCourse;
+  }
   public String getName(){
     return courseName;
 }

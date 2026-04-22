@@ -63,4 +63,15 @@ public class CourseManager {
 
     }
 
+    // public Course giveSelectedCourse(){
+    //     for (Course course:listOfCourses){
+    //         if(course.isSelectedCourse()){
+    //             return course;
+    //         }
+    //         else{
+    //             return null;
+    //         }
+    //     }
+    // }
+
 }
