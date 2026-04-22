@@ -1,4 +1,4 @@
-# Proposal for a Graduation Planner
+# Graduation Planner
 
 **Members:** Alli, Sydney, Katrina
 
