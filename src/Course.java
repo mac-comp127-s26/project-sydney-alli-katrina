@@ -16,10 +16,14 @@ public class Course {
     private boolean isBeingHovered;
     private boolean isBeingDragged = false;
     private boolean selectedCourse = false;
+    private final double resetX;
+    private final double resetY;
     public ArrayList<String> distributions= new ArrayList<>();
   public String courseName;
 public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup, CanvasWindow canvas){
     this.courseName = courseName;
+    this.resetX = x*2;
+    this.resetY = y+ height*.5;
     createIcon(x,y, graphicsGroup, canvas);
 
 }
@@ -38,10 +42,12 @@ public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup
                 double posX = mousePos.getX();
                 double posY = mousePos.getY();
                 if(posX > courseRectangle.getX() && posX < courseRectangle.getX()+width && posY > courseRectangle.getY() && posY < courseRectangle.getY()+height){
+                    courseRectangle.setFillColor(Color.YELLOW);
                     isBeingHovered= true;
                 }
                 else{
                     isBeingHovered= false;
+                    courseRectangle.setFillColor(Color.RED);
                 }
         });
     }
@@ -91,6 +97,10 @@ public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup
   public String getName(){
     return courseName;
 }
+    public void returnToStartPos(){
+        courseRectangle.setCenter(resetX,resetY);
+        courseLabel.setCenter(resetX,resetY);
+    }
 }
 
  

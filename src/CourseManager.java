@@ -57,12 +57,12 @@ public class CourseManager {
                     course.setDragging(false);
 
                     if (course.isInBounds(0,0,width, canvas.getHeight())) {
-                        course.setCenter(sidebar.getCenter());
+            
+                        course.returnToStartPos();
                     }
                   
-                    } //else {
-                    //     course.setCenter(canvas.getCenter());
-                    // }
+                    } 
+    
                 }
             
         });
