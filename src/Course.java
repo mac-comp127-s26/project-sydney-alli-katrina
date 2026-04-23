@@ -24,7 +24,7 @@ public class Course {
 //Writng: 3 courses at least 1 WA and no more than 1 can be WP
 // equivalent of 4 semesters of language
 public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup, CanvasWindow canvas){
-    courseName = this.courseName;
+     this.courseName = courseName;
     // x = this.x;
     // y = this.y;
     createIcon(x,y, graphicsGroup, canvas);
@@ -88,6 +88,9 @@ public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup
   public boolean isSelectedCourse(){
     return selectedCourse;
   }
+
+  
+  
   public String getName(){
     return courseName;
 }

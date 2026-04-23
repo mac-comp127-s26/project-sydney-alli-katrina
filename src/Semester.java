@@ -4,7 +4,7 @@ import java.util.List;
 
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Rectangle;
-
+import edu.macalester.graphics.Point;
 public class Semester {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 100;
@@ -48,6 +48,10 @@ public class Semester {
 
     public List<Course> getCourses(){
         return courses;
+    }
+
+    public Point getCenter(){
+        return semester.getCenter();
     }
     
 

@@ -15,14 +15,17 @@ public class CourseManager {
     private GraphicsGroup sidebar;
     private double width;
     private List<Course> listOfCourses = new ArrayList<>();
+    private SemesterManager semesterManager;
+    private Course selectedCourse;
 
-    public CourseManager(CanvasWindow canvas) {
+    public CourseManager(CanvasWindow canvas, SemesterManager semesterManager) {
+        this.semesterManager = semesterManager;
         width = canvas.getWidth() * 0.25;
         sideBarBackground = new Rectangle(0, 0, width, canvas.getHeight());
         sideBarBackground.setFillColor(color);
         sidebar = new GraphicsGroup();
         sidebar.add(sideBarBackground);
-        Course course = new Course("test", 100,100,sidebar, canvas);
+        Course course = new Course("test", 100, 100, sidebar, canvas);
         listOfCourses.add(course);
         canvas.add(sidebar);
 
@@ -37,6 +40,7 @@ public class CourseManager {
             for (Course course : listOfCourses) {
                 if (course.getHoverStatus()) {
                     course.setDragging(true);
+                    selectedCourse = course;
                     Point mousePos = event.getPosition();
                     course.setCenter(mousePos);
 
@@ -49,29 +53,29 @@ public class CourseManager {
                 if (course.isDragging()) {
                     course.setDragging(false);
 
-                    if (course.isInBounds(0,0,width, canvas.getHeight())) {
-                        course.setCenter(sidebar.getCenter());
-                    }
-                  
+                    if (semesterManager.courseOverlaps(course)) {
+                        semesterManager.putCourseInSemester(course);
                     } else {
-                        course.setCenter(canvas.getCenter());
+                        semesterManager.remove(course);
+                        course.setCenter(sidebar.getCenter());
+
                     }
                 }
-            
+                selectedCourse = null;
+            }
         });
 
 
     }
 
-    // public Course giveSelectedCourse(){
-    //     for (Course course:listOfCourses){
-    //         if(course.isSelectedCourse()){
-    //             return course;
-    //         }
-    //         else{
-    //             return null;
-    //         }
-    //     }
-    // }
+    public Course getSelectedCourse() {
+        if (selectedCourse != null)
+            return selectedCourse;
+        else {
+            return null;
+        }
+
+
+    }
 
 }
