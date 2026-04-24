@@ -15,15 +15,25 @@ public class CourseManager {
     private GraphicsGroup sidebar;
     private double width;
     private List<Course> listOfCourses = new ArrayList<>();
+    private SemesterManager semesterManager;
+    private Course selectedCourse;
+    private List<String> courseRequirements = List.of("Social Science", "Social Science",
+    "Natural Sciences and Mathematics", "Humanities/Fine Arts", "Humanities/Fine Arts", "Humanities/Fine Arts",
+    "Internationalism","US ID", "Q3", "WA", "WA/WP/WC","WA/WP/WC", "Language", "Language", "Language", "Language");
 
-    public CourseManager(CanvasWindow canvas) {
+    public CourseManager(CanvasWindow canvas, SemesterManager semesterManager) {
+        this.semesterManager = semesterManager;
         width = canvas.getWidth() * 0.25;
         sideBarBackground = new Rectangle(0, 0, width, canvas.getHeight());
         sideBarBackground.setFillColor(color);
         sidebar = new GraphicsGroup();
         sidebar.add(sideBarBackground);
-        Course course = new Course("test", 100,100,sidebar, canvas);
-        listOfCourses.add(course);
+        int count = 1;
+        for(String c : courseRequirements){
+            Course course = new Course(c, 100, 45*count, sidebar, canvas);
+            count++;
+            listOfCourses.add(course);
+        }
         canvas.add(sidebar);
 
     }
@@ -37,6 +47,7 @@ public class CourseManager {
             for (Course course : listOfCourses) {
                 if (course.getHoverStatus()) {
                     course.setDragging(true);
+                    selectedCourse = course;
                     Point mousePos = event.getPosition();
                     course.setCenter(mousePos);
 
@@ -49,29 +60,36 @@ public class CourseManager {
                 if (course.isDragging()) {
                     course.setDragging(false);
 
-                    if (course.isInBounds(0,0,width, canvas.getHeight())) {
+                    if (semesterManager.courseOverlaps(course)) {
+                        semesterManager.putCourseInSemester(course);
+                    } else {
+                        semesterManager.remove(course);
                         course.setCenter(sidebar.getCenter());
+
+                    }
+                    if (course.isInBounds(0,0,width, canvas.getHeight())) {
+            
+                        course.returnToStartPos();
                     }
                   
-                    } else {
-                        course.setCenter(canvas.getCenter());
-                    }
+                    } 
+    
                 }
-            
+                selectedCourse = null;
+            }
         });
 
 
     }
 
-    // public Course giveSelectedCourse(){
-    //     for (Course course:listOfCourses){
-    //         if(course.isSelectedCourse()){
-    //             return course;
-    //         }
-    //         else{
-    //             return null;
-    //         }
-    //     }
-    // }
+    public Course getSelectedCourse() {
+        if (selectedCourse != null)
+            return selectedCourse;
+        else {
+            return null;
+        }
+
+
+    }
 
 }

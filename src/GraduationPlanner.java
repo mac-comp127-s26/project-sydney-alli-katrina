@@ -19,7 +19,7 @@ public class GraduationPlanner {
         canvas.setBackground(CANVAS_COLOR);
         
       semesters = new SemesterManager(canvas);
-      courses = new CourseManager(canvas);
+      courses = new CourseManager(canvas, semesters);
       courses.drag(canvas);
       canvas.draw();
         
