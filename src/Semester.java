@@ -94,4 +94,18 @@ public class Semester {
 
     }
 
+    public void addCourse(Course course){
+        if(courses.size() < 4 || isBlocked){
+        courses.add(course);
+        if (courses.size() > 1){
+            course.setPosition(semester.getX(), courses.get(courses.indexOf(course) - 1).getNextY() + MARGIN);
+            
+        } else course.setPosition(semester.getX(), semester.getY() + MARGIN);//course.setCenter(semester.getCenter().getX(), semester.getY() + course.get + MARGIN);
+    }
+    }
+    public void removeCourse(Course course){
+        courses.remove(course);
+
+    }
+
 }

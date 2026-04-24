@@ -26,9 +26,9 @@ public class CourseManager {
         sideBar = new Rectangle(0, 0, width, canvas.getHeight());
         sideBar.setFillColor(Colors.COURSES_PANEL);
         canvas.add(sideBar);
-        int count = 1;
+        double count = 5.5;
         for(String c : courseRequirements){
-            Course course = new Course(c, sideBar.getWidth(), 45*count, sideBar, canvas);
+            Course course = new Course(c, sideBar.getWidth(), 30*count, sideBar, canvas);
             count++;
             listOfCourses.add(course);
         }

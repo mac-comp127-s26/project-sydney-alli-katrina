@@ -63,6 +63,11 @@ public Course(String courseName, double x, double y, Rectangle graphicsGroup, Ca
         courseLabel.setCenter(x,y);
     }
 
+    public void setPosition(double x, double y){
+        courseRectangle.setPosition(x,y);
+        courseLabel.setCenter(courseRectangle.getCenter());
+    }
+
 
     public boolean getHoverStatus(){
         return isBeingHovered;
@@ -74,6 +79,10 @@ public Course(String courseName, double x, double y, Rectangle graphicsGroup, Ca
 
     public double getCenterY(){
         return courseRectangle.getCenter().getY();
+    }
+
+    public double getY(){
+        return courseRectangle.getY();
     }
 
 
@@ -101,10 +110,15 @@ public Course(String courseName, double x, double y, Rectangle graphicsGroup, Ca
   public String getName(){
     return courseName;
 }
-    public void returnToStartPos(){
-        courseRectangle.setCenter(resetX,resetY);
-        courseLabel.setCenter(resetX,resetY);
-    }
+
+public void returnToStartPos(){
+    courseRectangle.setCenter(resetX,resetY);
+    courseLabel.setCenter(resetX,resetY);
+}
+
+public double getNextY(){
+    return courseRectangle.getY() + height;
+}
 }
 
  

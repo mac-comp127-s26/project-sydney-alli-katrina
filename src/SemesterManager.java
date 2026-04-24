@@ -69,13 +69,12 @@ public SemesterManager(CanvasWindow canvas){
 
     public void remove(Course course){
         if(curSemester!= null)  {
-        curSemester.getCourses().remove(course);
+        curSemester.removeCourse(course);
         }
     }
     public void putCourseInSemester(Course course){
         if(curSemester!= null)  {
-        curSemester.getCourses().add(course);
-            course.setCenter(curSemester.getCenter());
+            curSemester.addCourse(course);
         }
     }
 
