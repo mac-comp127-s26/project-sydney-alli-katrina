@@ -3,30 +3,30 @@ import java.util.List;
 import java.awt.Color;
 
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.FontStyle;
 import edu.macalester.graphics.GraphicsGroup;
+import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Rectangle;
 
 public class SemesterManager {
-    private static final Color PINK = new Color(204, 165, 191);
-    private static final Color TAN = new Color(214, 196, 163);
-    private static final Color GREEN = new Color(173, 191, 159);
-    private static final Color BLUE = new Color(163, 179, 194);
+
     private static final int SPACING = 40;
     private static final int MARGIN = 40;
-    private static final int STARTINGX = MARGIN;
-    private static final int STARTINGY = 10;
+    private static final int STARTINGX = 40;
+    private static final int STARTINGY = 80;
     private CanvasWindow canvas;
     private GraphicsGroup panel;
     private List<Semester> semesters;
     private int numSemesters = 8;
-    private List<Color> colors = new ArrayList<>(List.of(PINK, TAN, GREEN, BLUE));
     private Semester curSemester;
+    private List<Color> colors = new ArrayList<>(List.of(Colors.BROWN, Colors.PINK, Colors.GREEN, Colors.BLUE, Colors.GREEN));
+
 public SemesterManager(CanvasWindow canvas){
         this.canvas = canvas;
         semesters = new ArrayList<>();
         panelSetup();
         createSemesters();
-        canvas.add(panel); // add this last so everything added to the graphics group is added tg
+        canvas.add(panel);
     }
 
     private void createSemesters(){
@@ -35,23 +35,32 @@ public SemesterManager(CanvasWindow canvas){
         double x = STARTINGX;
         double y = STARTINGY;
         for (int i = 0; i < numSemesters; i++) {
-            Semester semester = new Semester(color, x, y, panel);
-            panel.add(semester.getGraphics());
+            Semester semester = new Semester(color, x, y, panel, canvas);
             semesters.add(semester);
-            if (x + semester.getWidth() + MARGIN > panel.getWidth() - MARGIN){
+            System.out.println("panel" + panel.getWidth());
+            System.out.println("canvas" + canvas.getWidth());
+            if (x + semester.getWidth() + MARGIN + SPACING > panel.getWidth() - MARGIN){
+                System.out.println("RAAAAHHH");
                 x = STARTINGX;
                 y += semester.getHeight() + SPACING;
                 n++;
                 color = colors.get(n);
-            } else x += semester.getWidth() + SPACING;
+            } else {
+                x += semester.getWidth() + SPACING;
+                color = color.darker();
+            }
         }
     }
 
     private void panelSetup(){
         Rectangle background = new Rectangle(0, 0, canvas.getWidth() * 0.75, canvas.getHeight());
-        background.setFillColor(Color.WHITE);
+        background.setFillColor(Colors.SEMESTER_PANEL);
         panel = new GraphicsGroup(canvas.getWidth() * 0.25, 0);
         panel.add(background);
+        GraphicsText title = new GraphicsText("Semesters");
+        title.setFont("times new roman", FontStyle.PLAIN, 15);
+        //panel.add(title);
+        title.setCenter(background.getCenter().getX(), 20);
     }
 
     public boolean courseOverlaps(Course course){
