@@ -94,6 +94,9 @@ public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup
   public boolean isSelectedCourse(){
     return selectedCourse;
   }
+
+  
+  
   public String getName(){
     return courseName;
 }

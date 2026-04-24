@@ -18,6 +18,7 @@ public class SemesterManager {
     private GraphicsGroup panel;
     private List<Semester> semesters;
     private int numSemesters = 8;
+    private Semester curSemester;
     private List<Color> colors = new ArrayList<>(List.of(Colors.BROWN, Colors.PINK, Colors.GREEN, Colors.BLUE, Colors.GREEN));
 
 public SemesterManager(CanvasWindow canvas){
@@ -65,18 +66,22 @@ public SemesterManager(CanvasWindow canvas){
     public boolean courseOverlaps(Course course){
         for (Semester s : semesters) {
             if(course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight())){
-                s.getCourses().add(course);
+                curSemester = s;
                 return true;
             } 
         }return false;
     }
 
-    public boolean checkRemove(Course course){
-        for (Semester s : semesters) {
-            if(!course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight()) && s.getCourses().contains(course)){
-                s.getCourses().remove(course);
-                return true;
-            } 
-        }return false;
+    public void remove(Course course){
+        if(curSemester!= null)  {
+        curSemester.getCourses().remove(course);
+        }
     }
+    public void putCourseInSemester(Course course){
+        if(curSemester!= null)  {
+        curSemester.getCourses().add(course);
+            course.setCenter(curSemester.getCenter());
+        }
+    }
+
 }

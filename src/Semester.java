@@ -7,7 +7,7 @@ import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Path;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
-
+import edu.macalester.graphics.Point;
 public class Semester {
     private static final int WIDTH = 400;
     private static final int HEIGHT = 100;
@@ -78,6 +78,10 @@ public class Semester {
         return courses;
     }
 
+    public Point getCenter(){
+        return semester.getCenter();
+    }
+    
     private void setBlockedStatus(){
         if (isBlocked) {
             semester.setFillColor(color);
