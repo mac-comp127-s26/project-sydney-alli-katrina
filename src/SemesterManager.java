@@ -37,10 +37,7 @@ public SemesterManager(CanvasWindow canvas){
         for (int i = 0; i < numSemesters; i++) {
             Semester semester = new Semester(color, x, y, panel, canvas);
             semesters.add(semester);
-            System.out.println("panel" + panel.getWidth());
-            System.out.println("canvas" + canvas.getWidth());
             if (x + semester.getWidth() + MARGIN + SPACING > panel.getWidth() - MARGIN){
-                System.out.println("RAAAAHHH");
                 x = STARTINGX;
                 y += semester.getHeight() + SPACING;
                 n++;

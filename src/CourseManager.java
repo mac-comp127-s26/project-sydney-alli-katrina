@@ -76,7 +76,7 @@ public class CourseManager {
     
                 }
                 selectedCourse = null;
-            }
+            
         });
 
 
