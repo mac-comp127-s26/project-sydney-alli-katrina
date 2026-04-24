@@ -20,23 +20,24 @@ public class Course {
     private final double resetY;
     public ArrayList<String> distributions= new ArrayList<>();
   public String courseName;
-public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup, CanvasWindow canvas){
+public Course(String courseName, double x, double y, Rectangle graphicsGroup, CanvasWindow canvas){
     this.courseName = courseName;
-    this.resetX = x*2;
-    this.resetY = y+ height*.5;
+    this.resetX = graphicsGroup.getCenter().getX();
+    this.resetY = y;
     createIcon(x,y, graphicsGroup, canvas);
 
 }
   
-    public void createIcon(double x, double y, GraphicsGroup graphicsGroup, CanvasWindow canvas){
+    public void createIcon(double x, double y , Rectangle graphicsGroup, CanvasWindow canvas){
         courseRectangle = new Rectangle(x,y,width,height);
         courseRectangle.setFillColor(Color.RED);
+        courseRectangle.setCenter(graphicsGroup.getCenter().getX(), y);
         courseLabel = new GraphicsText(courseName);
         courseLabel.setFillColor(Color.BLACK);
         courseLabel.setFontSize(10);
-        courseLabel.setCenter(x+width*.5, y+height*.5);
-        graphicsGroup.add(courseRectangle);
-        graphicsGroup.add(courseLabel);
+        courseLabel.setCenter(courseRectangle.getCenter());
+        canvas.add(courseRectangle);
+        canvas.add(courseLabel);
          canvas.onMouseMove(event -> {
                 Point mousePos = event.getPosition();
                 double posX = mousePos.getX();

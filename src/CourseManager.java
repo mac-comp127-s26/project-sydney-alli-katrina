@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseManager {
-    private Rectangle sideBarBackground;
+    private Rectangle sideBar;
     private Color color = Color.BLUE;
-    private GraphicsGroup sidebar;
     private double width;
     private List<Course> listOfCourses = new ArrayList<>();
     private SemesterManager semesterManager;
@@ -24,17 +23,15 @@ public class CourseManager {
     public CourseManager(CanvasWindow canvas, SemesterManager semesterManager) {
         this.semesterManager = semesterManager;
         width = canvas.getWidth() * 0.25;
-        sideBarBackground = new Rectangle(0, 0, width, canvas.getHeight());
-        sideBarBackground.setFillColor(color);
-        sidebar = new GraphicsGroup();
-        sidebar.add(sideBarBackground);
+        sideBar = new Rectangle(0, 0, width, canvas.getHeight());
+        sideBar.setFillColor(Colors.COURSES_PANEL);
+        canvas.add(sideBar);
         int count = 1;
         for(String c : courseRequirements){
-            Course course = new Course(c, 100, 45*count, sidebar, canvas);
+            Course course = new Course(c, sideBar.getWidth(), 45*count, sideBar, canvas);
             count++;
             listOfCourses.add(course);
         }
-        canvas.add(sidebar);
 
     }
 
@@ -64,11 +61,10 @@ public class CourseManager {
                         semesterManager.putCourseInSemester(course);
                     } else {
                         semesterManager.remove(course);
-                        course.setCenter(sidebar.getCenter());
+                        course.setCenter(sideBar.getCenter());
 
                     }
                     if (course.isInBounds(0,0,width, canvas.getHeight())) {
-            
                         course.returnToStartPos();
                     }
                   

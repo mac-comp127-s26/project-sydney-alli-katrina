@@ -15,7 +15,7 @@ public class SemesterManager {
     private static final int STARTINGX = 40;
     private static final int STARTINGY = 80;
     private CanvasWindow canvas;
-    private GraphicsGroup panel;
+    private Rectangle panel;
     private List<Semester> semesters;
     private int numSemesters = 8;
     private Semester curSemester;
@@ -26,7 +26,6 @@ public SemesterManager(CanvasWindow canvas){
         semesters = new ArrayList<>();
         panelSetup();
         createSemesters();
-        canvas.add(panel);
     }
 
     private void createSemesters(){
@@ -50,14 +49,13 @@ public SemesterManager(CanvasWindow canvas){
     }
 
     private void panelSetup(){
-        Rectangle background = new Rectangle(0, 0, canvas.getWidth() * 0.75, canvas.getHeight());
-        background.setFillColor(Colors.SEMESTER_PANEL);
-        panel = new GraphicsGroup(canvas.getWidth() * 0.25, 0);
-        panel.add(background);
+        panel = new Rectangle(canvas.getWidth() * 0.25, 0, canvas.getWidth() * 0.75, canvas.getHeight());
+        panel.setFillColor(Colors.SEMESTER_PANEL);
+        canvas.add(panel);
         GraphicsText title = new GraphicsText("Semesters");
         title.setFont("times new roman", FontStyle.PLAIN, 15);
-        //panel.add(title);
-        title.setCenter(background.getCenter().getX(), 20);
+        canvas.add(title);
+        title.setCenter(panel.getCenter().getX(), 20);
     }
 
     public boolean courseOverlaps(Course course){
