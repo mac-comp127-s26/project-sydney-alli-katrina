@@ -15,12 +15,11 @@ public class GraduationPlanner {
 
     public GraduationPlanner(){
         canvas = new CanvasWindow("Graduation Planner", CANVAS_WIDTH, CANVAS_HEIGHT);
-        System.out.println(canvas.getWidth());
         
-      semesters = new SemesterManager(canvas);
-      courses = new CourseManager(canvas, semesters);
-      courses.drag(canvas);
-      canvas.draw();
+        semesters = new SemesterManager(canvas);
+        courses = new CourseManager(canvas, semesters);
+        courses.drag(canvas);
+        canvas.draw();
         
     }
 

@@ -87,7 +87,7 @@ public class CourseManager {
 
         GraphicsText sideBarTitle = new GraphicsText("Courses");
         sideBarTitle.setFont("courier new", FontStyle.PLAIN, 20);
-        sideBarTitle.setCenter(sideBar.getCenter().getX(), 20);
+        sideBarTitle.setCenter(sideBar.getCenter().getX(), sideBar.getHeight()*0.06);
         canvas.add(sideBarTitle);
     }
 }

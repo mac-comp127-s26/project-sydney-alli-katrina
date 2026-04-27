@@ -25,7 +25,7 @@ public class Semester {
         this.color = color;
         createSemester(x, y, color, canvas);
         canvas.onClick(e -> {
-            if (canvas.getElementAt(e.getPosition()).equals(checkbox)) {
+            if (checkbox.testHit(e.getPosition().getX(), e.getPosition().getY())) {
                 setBlockedStatus();
             }
         });

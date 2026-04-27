@@ -12,7 +12,7 @@ public class SemesterManager {
 
     private static final int SPACING = 40;
     private static final int MARGIN = 40;
-    private static final int STARTINGX = 40;
+    private static final int STARTINGX = 60;
     private static final int STARTINGY = 80;
     private CanvasWindow canvas;
     private Rectangle panel;
@@ -55,7 +55,7 @@ public class SemesterManager {
         GraphicsText title = new GraphicsText("Semesters");
         title.setFont("courier new", FontStyle.PLAIN, 20);
         canvas.add(title);
-        title.setCenter(panel.getCenter().getX(), 20);
+        title.setCenter(panel.getCenter().getX(), panel.getHeight()*0.06);
     }
 
     public boolean courseOverlaps(Course course){

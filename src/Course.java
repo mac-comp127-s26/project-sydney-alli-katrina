@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.FontStyle;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
@@ -34,7 +35,7 @@ public Course(String courseName, double x, double y, Rectangle graphicsGroup, Ca
         courseRectangle.setCenter(graphicsGroup.getCenter().getX(), y);
         courseLabel = new GraphicsText(courseName);
         courseLabel.setFillColor(Colors.BORDER_COLOR);
-        courseLabel.setFontSize(10);
+        courseLabel.setFont("couier new", FontStyle.PLAIN, 10);
         courseLabel.setCenter(courseRectangle.getCenter());
         canvas.add(courseRectangle);
         canvas.add(courseLabel);
