@@ -2,7 +2,9 @@
 import java.awt.Color;
 
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.FontStyle;
 import edu.macalester.graphics.GraphicsGroup;
+import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.events.Key;
@@ -11,7 +13,6 @@ import java.util.List;
 
 public class CourseManager {
     private Rectangle sideBar;
-    private Color color = Color.BLUE;
     private double width;
     private List<Course> listOfCourses = new ArrayList<>();
     private SemesterManager semesterManager;
@@ -22,10 +23,7 @@ public class CourseManager {
 
     public CourseManager(CanvasWindow canvas, SemesterManager semesterManager) {
         this.semesterManager = semesterManager;
-        width = canvas.getWidth() * 0.25;
-        sideBar = new Rectangle(0, 0, width, canvas.getHeight());
-        sideBar.setFillColor(Colors.COURSES_PANEL);
-        canvas.add(sideBar);
+        sideBarSetup(canvas);
         double count = 5.5;
         for(String c : courseRequirements){
             Course course = new Course(c, sideBar.getWidth(), 30*count, sideBar, canvas);
@@ -57,22 +55,17 @@ public class CourseManager {
                 if (course.isDragging()) {
                     course.setDragging(false);
 
-                    if (semesterManager.courseOverlaps(course)) {
+                    if (semesterManager.courseOverlaps(course)) { //adding if overlapping
                         semesterManager.putCourseInSemester(course);
-                    } else {
-                        semesterManager.remove(course);
-                        course.setCenter(sideBar.getCenter());
-
-                    }
-                    if (course.isInBounds(0,0,width, canvas.getHeight())) {
+                    } else if (course.isInBounds(0,0,width, canvas.getHeight()) || !semesterManager.courseOverlaps(course)) { //if in bounds but not overlapping, send to og
+                      semesterManager.remove(course); 
                         course.returnToStartPos();
-                    }
-                  
+    
                     } 
     
                 }
                 selectedCourse = null;
-            
+            } 
         });
 
 
@@ -84,8 +77,17 @@ public class CourseManager {
         else {
             return null;
         }
-
-
     }
 
+    private void sideBarSetup(CanvasWindow canvas){
+        width = canvas.getWidth() * 0.25;
+        sideBar = new Rectangle(0, 0, width, canvas.getHeight());
+        sideBar.setFillColor(Colors.COURSES_PANEL);
+        canvas.add(sideBar);
+
+        GraphicsText sideBarTitle = new GraphicsText("Courses");
+        sideBarTitle.setFont("courier new", FontStyle.PLAIN, 20);
+        sideBarTitle.setCenter(sideBar.getCenter().getX(), 20);
+        canvas.add(sideBarTitle);
+    }
 }

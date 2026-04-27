@@ -21,7 +21,7 @@ public class SemesterManager {
     private Semester curSemester;
     private List<Color> colors = new ArrayList<>(List.of(Colors.BROWN, Colors.PINK, Colors.GREEN, Colors.BLUE, Colors.GREEN));
 
-public SemesterManager(CanvasWindow canvas){
+    public SemesterManager(CanvasWindow canvas){
         this.canvas = canvas;
         semesters = new ArrayList<>();
         panelSetup();
@@ -53,7 +53,7 @@ public SemesterManager(CanvasWindow canvas){
         panel.setFillColor(Colors.SEMESTER_PANEL);
         canvas.add(panel);
         GraphicsText title = new GraphicsText("Semesters");
-        title.setFont("times new roman", FontStyle.PLAIN, 15);
+        title.setFont("courier new", FontStyle.PLAIN, 20);
         canvas.add(title);
         title.setCenter(panel.getCenter().getX(), 20);
     }
@@ -63,15 +63,18 @@ public SemesterManager(CanvasWindow canvas){
             if(course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight())){
                 curSemester = s;
                 return true;
-            } 
+            } curSemester = null;
         }return false;
     }
 
     public void remove(Course course){
-        if(curSemester!= null)  {
-        curSemester.removeCourse(course);
-        }
+        if(curSemester!=null){
+            if(curSemester.getCourses().contains(course)){
+                curSemester.removeCourse(course);
+            }
     }
+}
+
     public void putCourseInSemester(Course course){
         if(curSemester!= null)  {
             curSemester.addCourse(course);

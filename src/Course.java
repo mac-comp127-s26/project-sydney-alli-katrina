@@ -30,25 +30,25 @@ public Course(String courseName, double x, double y, Rectangle graphicsGroup, Ca
   
     public void createIcon(double x, double y , Rectangle graphicsGroup, CanvasWindow canvas){
         courseRectangle = new Rectangle(x,y,width,height);
-        courseRectangle.setFillColor(Color.RED);
+        courseRectangle.setFillColor(Colors.SEMESTER_PANEL);
         courseRectangle.setCenter(graphicsGroup.getCenter().getX(), y);
         courseLabel = new GraphicsText(courseName);
-        courseLabel.setFillColor(Color.BLACK);
+        courseLabel.setFillColor(Colors.BORDER_COLOR);
         courseLabel.setFontSize(10);
         courseLabel.setCenter(courseRectangle.getCenter());
         canvas.add(courseRectangle);
         canvas.add(courseLabel);
-         canvas.onMouseMove(event -> {
+        canvas.onMouseMove(event -> {
                 Point mousePos = event.getPosition();
                 double posX = mousePos.getX();
                 double posY = mousePos.getY();
                 if(posX > courseRectangle.getX() && posX < courseRectangle.getX()+width && posY > courseRectangle.getY() && posY < courseRectangle.getY()+height){
-                    courseRectangle.setFillColor(Color.YELLOW);
+                    courseRectangle.setFillColor(Colors.COURSE_HIGHLIGHT);
                     isBeingHovered= true;
                 }
                 else{
                     isBeingHovered= false;
-                    courseRectangle.setFillColor(Color.RED);
+                    courseRectangle.setFillColor(Colors.SEMESTER_PANEL);
                 }
         });
     }
@@ -58,7 +58,7 @@ public Course(String courseName, double x, double y, Rectangle graphicsGroup, Ca
         courseLabel.setCenter(point);
     }
 
-      public void setCenter(double x, double y){
+    public void setCenter(double x, double y){
         courseRectangle.setCenter(x,y);
         courseLabel.setCenter(x,y);
     }
@@ -87,9 +87,9 @@ public Course(String courseName, double x, double y, Rectangle graphicsGroup, Ca
 
 
     public boolean isInBounds(double startX, double startY, double farX, double farY) {
-    return getCenterX() > startX && getCenterX() < farX 
-        && getCenterY() > startY && getCenterY() < farY;
-}
+    return getCenterX() >= startX && getCenterX() <= farX 
+        && getCenterY() >= startY && getCenterY() <= farY;
+    }
     
 
     public void setDragging(boolean dragging){

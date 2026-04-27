@@ -102,9 +102,14 @@ public class Semester {
             
         } else course.setPosition(semester.getX(), semester.getY() + MARGIN);//course.setCenter(semester.getCenter().getX(), semester.getY() + course.get + MARGIN);
     }
+        if(courses.size()>4){
+           course.returnToStartPos(); 
+        }
+    System.out.println(courses.size());
     }
     public void removeCourse(Course course){
         courses.remove(course);
+        System.out.println(courses.size());
 
     }
 
