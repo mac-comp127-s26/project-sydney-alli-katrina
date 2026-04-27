@@ -15,9 +15,10 @@ public class SemesterManager {
     private static final int STARTINGX = 40;
     private static final int STARTINGY = 80;
     private CanvasWindow canvas;
-    private GraphicsGroup panel;
+    private Rectangle panel;
     private List<Semester> semesters;
     private int numSemesters = 8;
+    private Semester curSemester;
     private List<Color> colors = new ArrayList<>(List.of(Colors.BROWN, Colors.PINK, Colors.GREEN, Colors.BLUE, Colors.GREEN));
 
 public SemesterManager(CanvasWindow canvas){
@@ -25,7 +26,6 @@ public SemesterManager(CanvasWindow canvas){
         semesters = new ArrayList<>();
         panelSetup();
         createSemesters();
-        canvas.add(panel);
     }
 
     private void createSemesters(){
@@ -36,10 +36,7 @@ public SemesterManager(CanvasWindow canvas){
         for (int i = 0; i < numSemesters; i++) {
             Semester semester = new Semester(color, x, y, panel, canvas);
             semesters.add(semester);
-            System.out.println("panel" + panel.getWidth());
-            System.out.println("canvas" + canvas.getWidth());
             if (x + semester.getWidth() + MARGIN + SPACING > panel.getWidth() - MARGIN){
-                System.out.println("RAAAAHHH");
                 x = STARTINGX;
                 y += semester.getHeight() + SPACING;
                 n++;
@@ -52,31 +49,33 @@ public SemesterManager(CanvasWindow canvas){
     }
 
     private void panelSetup(){
-        Rectangle background = new Rectangle(0, 0, canvas.getWidth() * 0.75, canvas.getHeight());
-        background.setFillColor(Colors.SEMESTER_PANEL);
-        panel = new GraphicsGroup(canvas.getWidth() * 0.25, 0);
-        panel.add(background);
+        panel = new Rectangle(canvas.getWidth() * 0.25, 0, canvas.getWidth() * 0.75, canvas.getHeight());
+        panel.setFillColor(Colors.SEMESTER_PANEL);
+        canvas.add(panel);
         GraphicsText title = new GraphicsText("Semesters");
         title.setFont("times new roman", FontStyle.PLAIN, 15);
-        //panel.add(title);
-        title.setCenter(background.getCenter().getX(), 20);
+        canvas.add(title);
+        title.setCenter(panel.getCenter().getX(), 20);
     }
 
     public boolean courseOverlaps(Course course){
         for (Semester s : semesters) {
             if(course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight())){
-                s.getCourses().add(course);
+                curSemester = s;
                 return true;
             } 
         }return false;
     }
 
-    public boolean checkRemove(Course course){
-        for (Semester s : semesters) {
-            if(!course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight()) && s.getCourses().contains(course)){
-                s.getCourses().remove(course);
-                return true;
-            } 
-        }return false;
+    public void remove(Course course){
+        if(curSemester!= null)  {
+        curSemester.removeCourse(course);
+        }
     }
+    public void putCourseInSemester(Course course){
+        if(curSemester!= null)  {
+            curSemester.addCourse(course);
+        }
+    }
+
 }
