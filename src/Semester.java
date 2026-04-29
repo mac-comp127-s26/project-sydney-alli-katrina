@@ -107,10 +107,28 @@ public class Semester {
         }
     System.out.println(courses.size());
     }
+
     public void removeCourse(Course course){
+         shiftCourses(course);
         courses.remove(course);
         System.out.println(courses.size());
-
+        
     }
 
+    private void shiftCourses(Course c){
+        int i = courses.indexOf(c);
+        for (Course course : courses) {
+            if (courses.indexOf(course) > courses.indexOf(c)){
+                course.setPosition(semester.getX(), courses.get(i - 1).getNextY() + MARGIN);
+                i++;
+            } 
+            // if (i == 0){
+            //     course.setPosition(semester.getX(), semester.getY() + MARGIN);
+            // } else {
+            //     course.setPosition(semester.getX(), courses.get(i - 1).getNextY() + MARGIN);
+            //     i++;
+            // }
+            // like kind of works sometimes in a way
+        }
+    }
 }

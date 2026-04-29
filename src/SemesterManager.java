@@ -58,26 +58,27 @@ public class SemesterManager {
         title.setCenter(panel.getCenter().getX(), panel.getHeight()*0.06);
     }
 
-    public boolean courseOverlaps(Course course){
+    public Semester courseOverlaps(Course course){
         for (Semester s : semesters) {
             if(course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight())){
-                curSemester = s;
-                return true;
-            } curSemester = null;
-        }return false;
+                return s;
+            } 
+            //remove(course);
+        } 
+        return null;
     }
 
-    public void remove(Course course){
-        if(curSemester!=null){
-            if(curSemester.getCourses().contains(course)){
-                curSemester.removeCourse(course);
+    public void remove(Course course, Semester semester){
+        if(semester!=null){
+            if(semester.getCourses().contains(course)){
+                semester.removeCourse(course);
             }
     }
 }
 
-    public void putCourseInSemester(Course course){
-        if(curSemester!= null)  {
-            curSemester.addCourse(course);
+    public void putCourseInSemester(Course course, Semester semester){
+        if(semester!= null && !semester.getCourses().contains(course))  {
+            semester.addCourse(course);
         }
     }
 

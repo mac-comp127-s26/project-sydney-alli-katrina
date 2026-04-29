@@ -41,11 +41,12 @@ public class CourseManager {
         canvas.onDrag(event -> {
             for (Course course : listOfCourses) {
                 if (course.getHoverStatus()) {
+                    Semester curSemester = semesterManager.courseOverlaps(course);
                     course.setDragging(true);
                     selectedCourse = course;
                     Point mousePos = event.getPosition();
                     course.setCenter(mousePos);
-
+                    semesterManager.remove(course, curSemester);
                 }
             }
 
@@ -54,11 +55,11 @@ public class CourseManager {
             for (Course course : listOfCourses) {
                 if (course.isDragging()) {
                     course.setDragging(false);
-
-                    if (semesterManager.courseOverlaps(course)) { //adding if overlapping
-                        semesterManager.putCourseInSemester(course);
-                    } else if (course.isInBounds(0,0,width, canvas.getHeight()) || !semesterManager.courseOverlaps(course)) { //if in bounds but not overlapping, send to og
-                      semesterManager.remove(course); 
+                   Semester curSemester = semesterManager.courseOverlaps(course);
+                    if (curSemester != null) { //adding if overlapping
+                        semesterManager.putCourseInSemester(course, curSemester);
+                    } else { //if in bounds but not overlapping, send to og
+                      //semesterManager.remove(course, curSemester); 
                         course.returnToStartPos();
     
                     } 
