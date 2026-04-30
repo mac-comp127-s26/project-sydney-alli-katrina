@@ -30,7 +30,7 @@ public class CourseManager {
         sidebar.add(sideBarBackground);
         int count = 1;
         for(String c : courseRequirements){
-            Course course = new Course(c, 100, 45*count, sidebar, canvas);
+            Course course = new Course(c, canvas.getWidth()*.04, 45*count, sidebar, canvas);
             count++;
             listOfCourses.add(course);
         }
@@ -76,7 +76,7 @@ public class CourseManager {
     
                 }
                 selectedCourse = null;
-            }
+            
         });
 
 
