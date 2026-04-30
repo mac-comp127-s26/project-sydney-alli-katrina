@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import edu.macalester.graphics.CanvasWindow;
+import edu.macalester.graphics.FontStyle;
 import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
@@ -20,34 +21,35 @@ public class Course {
     private final double resetY;
     public ArrayList<String> distributions= new ArrayList<>();
   public String courseName;
-public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup, CanvasWindow canvas){
+public Course(String courseName, double x, double y, Rectangle graphicsGroup, CanvasWindow canvas){
     this.courseName = courseName;
-    this.resetX = x*2;
-    this.resetY = y+ height*.5;
+    this.resetX = graphicsGroup.getCenter().getX();
+    this.resetY = y;
     createIcon(x,y, graphicsGroup, canvas);
 
 }
   
-    public void createIcon(double x, double y, GraphicsGroup graphicsGroup, CanvasWindow canvas){
+    public void createIcon(double x, double y , Rectangle graphicsGroup, CanvasWindow canvas){
         courseRectangle = new Rectangle(x,y,width,height);
-        courseRectangle.setFillColor(Color.RED);
+        courseRectangle.setFillColor(Colors.SEMESTER_PANEL);
+        courseRectangle.setCenter(graphicsGroup.getCenter().getX(), y);
         courseLabel = new GraphicsText(courseName);
-        courseLabel.setFillColor(Color.BLACK);
-        courseLabel.setFontSize(10);
-        courseLabel.setCenter(x+width*.5, y+height*.5);
-        graphicsGroup.add(courseRectangle);
-        graphicsGroup.add(courseLabel);
-         canvas.onMouseMove(event -> {
+        courseLabel.setFillColor(Colors.BORDER_COLOR);
+        courseLabel.setFont("couier new", FontStyle.PLAIN, 10);
+        courseLabel.setCenter(courseRectangle.getCenter());
+        canvas.add(courseRectangle);
+        canvas.add(courseLabel);
+        canvas.onMouseMove(event -> {
                 Point mousePos = event.getPosition();
                 double posX = mousePos.getX();
                 double posY = mousePos.getY();
                 if(posX > courseRectangle.getX() && posX < courseRectangle.getX()+width && posY > courseRectangle.getY() && posY < courseRectangle.getY()+height){
-                    courseRectangle.setFillColor(Color.YELLOW);
+                    courseRectangle.setFillColor(Colors.COURSE_HIGHLIGHT);
                     isBeingHovered= true;
                 }
                 else{
                     isBeingHovered= false;
-                    courseRectangle.setFillColor(Color.RED);
+                    courseRectangle.setFillColor(Colors.SEMESTER_PANEL);
                 }
         });
     }
@@ -57,9 +59,14 @@ public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup
         courseLabel.setCenter(point);
     }
 
-      public void setCenter(double x, double y){
+    public void setCenter(double x, double y){
         courseRectangle.setCenter(x,y);
         courseLabel.setCenter(x,y);
+    }
+
+    public void setPosition(double x, double y){
+        courseRectangle.setPosition(x,y);
+        courseLabel.setCenter(courseRectangle.getCenter());
     }
 
 
@@ -75,11 +82,15 @@ public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup
         return courseRectangle.getCenter().getY();
     }
 
+    public double getY(){
+        return courseRectangle.getY();
+    }
+
 
     public boolean isInBounds(double startX, double startY, double farX, double farY) {
-    return getCenterX() > startX && getCenterX() < farX 
-        && getCenterY() > startY && getCenterY() < farY;
-}
+    return getCenterX() >= startX && getCenterX() <= farX 
+        && getCenterY() >= startY && getCenterY() <= farY;
+    }
     
 
     public void setDragging(boolean dragging){
@@ -100,10 +111,15 @@ public Course(String courseName, double x, double y, GraphicsGroup graphicsGroup
   public String getName(){
     return courseName;
 }
-    public void returnToStartPos(){
-        courseRectangle.setCenter(resetX,resetY);
-        courseLabel.setCenter(resetX,resetY);
-    }
+
+public void returnToStartPos(){
+    courseRectangle.setCenter(resetX,resetY);
+    courseLabel.setCenter(resetX,resetY);
+}
+
+public double getNextY(){
+    return courseRectangle.getY() + height;
+}
 }
 
  
