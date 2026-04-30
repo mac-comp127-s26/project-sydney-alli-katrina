@@ -14,9 +14,11 @@ import java.util.List;
 public class CourseManager {
     private Rectangle sideBar;
     private double width;
-    private List<Course> listOfCourses = new ArrayList<>();
+    private static List<Course> listOfCourses = new ArrayList<>();
     private SemesterManager semesterManager;
     private Course selectedCourse;
+    private static double  percentComplete= 0;
+    static GraphicsText completenessTracker = new GraphicsText("Percent Graduation Requirements Complete " + percentComplete + "%"); 
     private List<String> courseRequirements = List.of("Social Science", "Social Science",
     "Natural Sciences and Mathematics", "Humanities/Fine Arts", "Humanities/Fine Arts", "Humanities/Fine Arts",
     "Internationalism","US ID", "Q3", "WA", "WA/WP/WC","WA/WP/WC", "Language", "Language", "Language", "Language");
@@ -51,6 +53,7 @@ public class CourseManager {
             }
 
         });
+        
         canvas.onMouseUp(event -> {
             for (Course course : listOfCourses) {
                 if (course.isDragging()) {
@@ -67,6 +70,7 @@ public class CourseManager {
                 }
                 selectedCourse = null;
             } 
+            updatePercentComplete();
         });
 
 
@@ -90,5 +94,27 @@ public class CourseManager {
         sideBarTitle.setFont("courier new", FontStyle.PLAIN, 20);
         sideBarTitle.setCenter(sideBar.getCenter().getX(), sideBar.getHeight()*0.06);
         canvas.add(sideBarTitle);
+
     }
+
+    public void percentCompleteSetUp(CanvasWindow canvas){
+        completenessTracker.setFont("courier new", FontStyle.PLAIN, 20);
+        completenessTracker.setCenter(550, 750);
+        canvas.add(completenessTracker);
+    }
+
+    public static void updatePercentComplete(){
+        double placedSize = SemesterManager.allCoursesInAnySemester().size();
+        double coursesSize=  listOfCourses.size();
+        if(placedSize>0){
+            percentComplete = placedSize/coursesSize *100;
+            completenessTracker.setText("Percent Graduation Requirements Complete " + percentComplete+ "%");
+        }
+        else{
+            percentComplete = 0;
+            completenessTracker.setText("Percent Graduation Requirements Complete " + percentComplete+ "%");
+        }
+    }
+
+    
 }

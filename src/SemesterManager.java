@@ -16,9 +16,10 @@ public class SemesterManager {
     private static final int STARTINGY = 80;
     private CanvasWindow canvas;
     private Rectangle panel;
-    private List<Semester> semesters;
+    private static List<Semester> semesters;
     private int numSemesters = 8;
     private Semester curSemester;
+    private static ArrayList<Course> coursesPlaced = new ArrayList<>();
     private List<Color> colors = new ArrayList<>(List.of(Colors.BROWN, Colors.PINK, Colors.GREEN, Colors.BLUE, Colors.GREEN));
 
     public SemesterManager(CanvasWindow canvas){
@@ -63,7 +64,6 @@ public class SemesterManager {
             if(course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight())){
                 return s;
             } 
-            //remove(course);
         } 
         return null;
     }
@@ -73,6 +73,7 @@ public class SemesterManager {
             if(semester.getCourses().contains(course)){
                 semester.removeCourse(course);
             }
+       
     }
 }
 
@@ -80,6 +81,14 @@ public class SemesterManager {
         if(semester!= null && !semester.getCourses().contains(course))  {
             semester.addCourse(course);
         }
+    }
+
+    public static ArrayList<Course> allCoursesInAnySemester(){
+        ArrayList<Course> coursesPlaced = new ArrayList<>();
+        for(Semester s:semesters){
+            coursesPlaced.addAll(s.getCourses());
+        }
+        return coursesPlaced;
     }
 
 }

@@ -18,6 +18,7 @@ public class GraduationPlanner {
         
         semesters = new SemesterManager(canvas);
         courses = new CourseManager(canvas, semesters);
+        courses.percentCompleteSetUp(canvas);
         courses.drag(canvas);
         canvas.draw();
         

@@ -107,6 +107,7 @@ public class Semester {
                                                                               // semester.getY() + course.get + MARGIN);
         } else{
             course.returnToStartPos();
+            
         }
          
 
@@ -125,6 +126,7 @@ public class Semester {
             Course c = courses.get(0);
             removeCourse(c);
             c.returnToStartPos();
+            CourseManager.updatePercentComplete();
         }
 }
 
@@ -139,14 +141,6 @@ public class Semester {
                 current.setPosition(semester.getX(), previous.getNextY() + MARGIN);
             }
 
-
-            // if (i == 0){
-            // course.setPosition(semester.getX(), semester.getY() + MARGIN);
-            // } else {
-            // course.setPosition(semester.getX(), courses.get(i - 1).getNextY() + MARGIN);
-            // i++;
-            // }
-            // like kind of works sometimes in a way
         }
     }
 }
