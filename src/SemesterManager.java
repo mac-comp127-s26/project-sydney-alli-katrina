@@ -12,7 +12,7 @@ public class SemesterManager {
 
     private static final int SPACING = 40;
     private static final int MARGIN = 40;
-    private static final int STARTINGX = 60;
+    private static final int STARTINGX = 75;
     private static final int STARTINGY = 80;
     private CanvasWindow canvas;
     private Rectangle panel;
@@ -20,16 +20,17 @@ public class SemesterManager {
     private int numSemesters = 8;
     private Semester curSemester;
     private static ArrayList<Course> coursesPlaced = new ArrayList<>();
-    private List<Color> colors = new ArrayList<>(List.of(Colors.BROWN, Colors.PINK, Colors.GREEN, Colors.BLUE, Colors.GREEN));
+    private List<Color> colors = new ArrayList<>(
+        List.of(Colors.BROWN, Colors.PINK, Colors.GREEN, Colors.BLUE, Colors.GREEN));
 
-    public SemesterManager(CanvasWindow canvas){
+    public SemesterManager(CanvasWindow canvas) {
         this.canvas = canvas;
         semesters = new ArrayList<>();
         panelSetup();
         createSemesters();
     }
 
-    private void createSemesters(){
+    private void createSemesters() {
         int n = 0;
         Color color = colors.get(n);
         double x = STARTINGX;
@@ -37,7 +38,7 @@ public class SemesterManager {
         for (int i = 0; i < numSemesters; i++) {
             Semester semester = new Semester(color, x, y, panel, canvas);
             semesters.add(semester);
-            if (x + semester.getWidth() + MARGIN + SPACING > panel.getWidth() - MARGIN){
+            if (x + semester.getWidth() + MARGIN + SPACING > panel.getWidth() - MARGIN) {
                 x = STARTINGX;
                 y += semester.getHeight() + SPACING;
                 n++;
@@ -49,43 +50,44 @@ public class SemesterManager {
         }
     }
 
-    private void panelSetup(){
-        panel = new Rectangle(canvas.getWidth() * 0.25, 0, canvas.getWidth() * 0.75, canvas.getHeight());
+    private void panelSetup() {
+        panel = new Rectangle(250, 0, 600, canvas.getHeight());
         panel.setFillColor(Colors.SEMESTER_PANEL);
         canvas.add(panel);
         GraphicsText title = new GraphicsText("Semesters");
         title.setFont("courier new", FontStyle.PLAIN, 20);
         canvas.add(title);
-        title.setCenter(panel.getCenter().getX(), panel.getHeight()*0.06);
+        title.setCenter(panel.getCenter().getX(), panel.getHeight() * 0.06);
     }
 
-    public Semester courseOverlaps(Course course){
+    public Semester courseOverlaps(Course course) {
         for (Semester s : semesters) {
-            if(course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight())){
+            if (course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(),
+                s.getTopY() + s.getHeight())) {
                 return s;
-            } 
-        } 
+            }
+        }
         return null;
     }
 
-    public void remove(Course course, Semester semester){
-        if(semester!=null){
-            if(semester.getCourses().contains(course)){
+    public void remove(Course course, Semester semester) {
+        if (semester != null) {
+            if (semester.getCourses().contains(course)) {
                 semester.removeCourse(course);
             }
-       
-    }
-}
 
-    public void putCourseInSemester(Course course, Semester semester){
-        if(semester!= null && !semester.getCourses().contains(course))  {
+        }
+    }
+
+    public void putCourseInSemester(Course course, Semester semester) {
+        if (semester != null && !semester.getCourses().contains(course)) {
             semester.addCourse(course);
         }
     }
 
-    public static ArrayList<Course> allCoursesInAnySemester(){
+    public static ArrayList<Course> allCoursesInAnySemester() {
         ArrayList<Course> coursesPlaced = new ArrayList<>();
-        for(Semester s:semesters){
+        for (Semester s : semesters) {
             coursesPlaced.addAll(s.getCourses());
         }
         return coursesPlaced;

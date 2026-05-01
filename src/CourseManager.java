@@ -12,27 +12,44 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CourseManager {
-    private Rectangle sideBar;
+    private Rectangle gradSideBar;
+    private Rectangle majorSideBar;
     private double width;
     private static List<Course> listOfCourses = new ArrayList<>();
+    private static List<Course> listOfMajCourses = new ArrayList<>();
     private SemesterManager semesterManager;
     private Course selectedCourse;
-    private static double  percentComplete= 0;
-    static GraphicsText completenessTracker = new GraphicsText("Percent Graduation Requirements Complete " + percentComplete + "%"); 
+    private static double percentComplete = 0;
+    static GraphicsText completenessTracker = new GraphicsText(
+        "Percent Graduation Requirements Complete " + percentComplete + "%");
     private List<String> courseRequirements = List.of("Social Science", "Social Science",
-    "Natural Sciences and Mathematics", "Humanities/Fine Arts", "Humanities/Fine Arts", "Humanities/Fine Arts",
-    "Internationalism","US ID", "Q3", "WA", "WA/WP/WC","WA/WP/WC", "Language", "Language", "Language", "Language");
+        "Natural Sciences and Mathematics", "Humanities/Fine Arts", "Humanities/Fine Arts", "Humanities/Fine Arts",
+        "Internationalism", "US ID", "Q3", "WA", "WA/WP/WC", "WA/WP/WC", "Language", "Language", "Language",
+        "Language");
+
+    private List<String> majorRequirements = Majors.getMajor();  // call a method that returns selected major courses
 
     public CourseManager(CanvasWindow canvas, SemesterManager semesterManager) {
         this.semesterManager = semesterManager;
-        sideBarSetup(canvas);
+        gradSideBarSetup(canvas);
+        majorSideBarSetup(canvas);
         double count = 5.5;
-        for(String c : courseRequirements){
-            Course course = new Course(c, sideBar.getWidth(), 30*count, sideBar, canvas);
+
+        for (String c : courseRequirements) {
+            Course course = new Course(c, gradSideBar.getWidth(), 30 * count, gradSideBar, canvas);
             count++;
             listOfCourses.add(course);
-        }
 
+        }
+        count = 5.5;
+        for (String m : majorRequirements) {
+            if (m != "None") {
+                Course mCourse = new Course(m, majorSideBar.getWidth(), 30 * count, majorSideBar, canvas);
+                count++;
+                listOfCourses.add(mCourse);
+
+            }
+        }
     }
 
     public double getWidth() {
@@ -53,23 +70,22 @@ public class CourseManager {
             }
 
         });
-        
+
         canvas.onMouseUp(event -> {
             for (Course course : listOfCourses) {
                 if (course.isDragging()) {
                     course.setDragging(false);
-                   Semester curSemester = semesterManager.courseOverlaps(course);
-                    if (curSemester != null) { //adding if overlapping
+                    Semester curSemester = semesterManager.courseOverlaps(course);
+                    if (curSemester != null) { // adding if overlapping
                         semesterManager.putCourseInSemester(course, curSemester);
-                    } else { //if in bounds but not overlapping, send to og
-                      //semesterManager.remove(course, curSemester); 
+                    } else { // if in bounds but not overlapping, send to og
                         course.returnToStartPos();
-    
-                    } 
-    
+
+                    }
+
                 }
                 selectedCourse = null;
-            } 
+            }
             updatePercentComplete();
         });
 
@@ -84,37 +100,49 @@ public class CourseManager {
         }
     }
 
-    private void sideBarSetup(CanvasWindow canvas){
-        width = canvas.getWidth() * 0.25;
-        sideBar = new Rectangle(0, 0, width, canvas.getHeight());
-        sideBar.setFillColor(Colors.COURSES_PANEL);
-        canvas.add(sideBar);
+    private void gradSideBarSetup(CanvasWindow canvas) {
+        width = 250;
+        gradSideBar = new Rectangle(0, 0, width, canvas.getHeight());
+        gradSideBar.setFillColor(Colors.COURSES_PANEL);
+        canvas.add(gradSideBar);
 
-        GraphicsText sideBarTitle = new GraphicsText("Courses");
+        GraphicsText sideBarTitle = new GraphicsText("Grad Courses");
         sideBarTitle.setFont("courier new", FontStyle.PLAIN, 20);
-        sideBarTitle.setCenter(sideBar.getCenter().getX(), sideBar.getHeight()*0.06);
+        sideBarTitle.setCenter(gradSideBar.getCenter().getX(), gradSideBar.getHeight() * 0.06);
         canvas.add(sideBarTitle);
 
     }
 
-    public void percentCompleteSetUp(CanvasWindow canvas){
+    private void majorSideBarSetup(CanvasWindow canvas) {
+        width = 250;
+        majorSideBar = new Rectangle(850, 0, width, canvas.getHeight());
+        majorSideBar.setFillColor(Colors.COURSES_PANEL);
+        canvas.add(majorSideBar);
+
+        GraphicsText sideBarTitle = new GraphicsText("Major Courses");
+        sideBarTitle.setFont("courier new", FontStyle.PLAIN, 20);
+        sideBarTitle.setCenter(majorSideBar.getCenter().getX(), majorSideBar.getHeight() * 0.06);
+        canvas.add(sideBarTitle);
+
+    }
+
+    public void percentCompleteSetUp(CanvasWindow canvas) {
         completenessTracker.setFont("courier new", FontStyle.PLAIN, 20);
         completenessTracker.setCenter(550, 750);
         canvas.add(completenessTracker);
     }
 
-    public static void updatePercentComplete(){
+    public static void updatePercentComplete() {
         double placedSize = SemesterManager.allCoursesInAnySemester().size();
-        double coursesSize=  listOfCourses.size();
-        if(placedSize>0){
-            percentComplete = placedSize/coursesSize *100;
-            completenessTracker.setText("Percent Graduation Requirements Complete " + percentComplete+ "%");
-        }
-        else{
+        double coursesSize = listOfCourses.size();
+        if (placedSize > 0) {
+            percentComplete = placedSize / coursesSize * 100;
+            completenessTracker.setText("Percent Graduation Requirements Complete " + percentComplete + "%");
+        } else {
             percentComplete = 0;
-            completenessTracker.setText("Percent Graduation Requirements Complete " + percentComplete+ "%");
+            completenessTracker.setText("Percent Graduation Requirements Complete " + percentComplete + "%");
         }
     }
 
-    
+
 }

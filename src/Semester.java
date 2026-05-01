@@ -10,8 +10,8 @@ import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.Point;
 
 public class Semester {
-    private static final int WIDTH = 250;
-    private static final int HEIGHT = 100;
+    private static final int WIDTH = 210;
+    private static final int HEIGHT = 105;
     private static final int MARGIN = 5;
     public ArrayList<Course> courses = new ArrayList<>();
     private Rectangle semester;
@@ -100,45 +100,44 @@ public class Semester {
         if (courses.size() < 4 && !isBlocked) {
             courses.add(course);
             if (courses.size() > 1) {
-                course.setPosition(semester.getX(), courses.get(courses.indexOf(course) - 1).getNextY() + MARGIN);
+                course.setPosition(semester.getX() + 5, courses.get(courses.indexOf(course) - 1).getNextY() + MARGIN);
 
             } else
-                course.setPosition(semester.getX(), semester.getY() + MARGIN);// course.setCenter(semester.getCenter().getX(),
-                                                                              // semester.getY() + course.get + MARGIN);
-        } else{
-            course.returnToStartPos();
-            
-        }
-         
+                course.setPosition(semester.getX() + 5, semester.getY() + MARGIN);
 
-        System.out.println(courses.size());
+        } else {
+            course.returnToStartPos();
+
+        }
+
+
     }
 
     public void removeCourse(Course course) {
         Course removedCourse = course;
         courses.remove(course);
         shiftCourses(removedCourse);
-        System.out.println(courses.size());
+
     }
 
-    private void removeAllCourses(){
-        while(!courses.isEmpty()){
+    private void removeAllCourses() {
+        while (!courses.isEmpty()) {
             Course c = courses.get(0);
             removeCourse(c);
             c.returnToStartPos();
             CourseManager.updatePercentComplete();
         }
-}
+    }
 
     private void shiftCourses(Course c) {
         int removedCourse = courses.indexOf(c);
         for (int i = removedCourse + 1; i < courses.size(); i++) {
             Course current = courses.get(i);
             if (i == 0) {
-                current.setPosition(semester.getX(), semester.getY() + MARGIN);
+                current.setPosition(semester.getX() + 5, semester.getY() + MARGIN);
             } else {
                 Course previous = courses.get(i - 1);
-                current.setPosition(semester.getX(), previous.getNextY() + MARGIN);
+                current.setPosition(semester.getX() + 5, previous.getNextY() + MARGIN);
             }
 
         }
