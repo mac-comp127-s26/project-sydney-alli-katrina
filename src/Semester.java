@@ -8,6 +8,7 @@ import edu.macalester.graphics.Path;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
 import edu.macalester.graphics.Point;
+
 public class Semester {
     private static final int WIDTH = 250;
     private static final int HEIGHT = 100;
@@ -20,18 +21,18 @@ public class Semester {
     public boolean isBlocked = false;
     private Color color;
 
-    public Semester(Color color, double x, double y, Rectangle panel, CanvasWindow canvas){
+    public Semester(Color color, double x, double y, Rectangle panel, CanvasWindow canvas) {
         this.panel = panel;
         this.color = color;
         createSemester(x, y, color, canvas);
         canvas.onClick(e -> {
-            if (canvas.getElementAt(e.getPosition()).equals(checkbox)) {
+            if (checkbox.testHit(e.getPosition().getX(), e.getPosition().getY())) {
                 setBlockedStatus();
             }
         });
     }
 
-    private void createSemester(double x, double y, Color color, CanvasWindow canvas){
+    private void createSemester(double x, double y, Color color, CanvasWindow canvas) {
         semester = new Rectangle(x + panel.getX(), y, WIDTH, HEIGHT);
         semester.setFillColor(color);
         semester.setStrokeColor(Colors.BORDER_COLOR);
@@ -50,38 +51,38 @@ public class Semester {
         check.setCenter(checkbox.getCenter());
         check.setStrokeColor(Colors.CHECKBOX);
         canvas.add(check);
-        
+
     }
 
-    public Rectangle getGraphics(){
+    public Rectangle getGraphics() {
         return semester;
     }
 
-    public int getWidth(){
+    public int getWidth() {
         return WIDTH;
     }
 
-    public int getHeight(){
+    public int getHeight() {
         return HEIGHT;
     }
 
-    public double getLeftX(){
+    public double getLeftX() {
         return semester.getX();
     }
 
-    public double getTopY(){
+    public double getTopY() {
         return semester.getY();
     }
 
-    public List<Course> getCourses(){
+    public List<Course> getCourses() {
         return courses;
     }
 
-    public Point getCenter(){
+    public Point getCenter() {
         return semester.getCenter();
     }
-    
-    private void setBlockedStatus(){
+
+    private void setBlockedStatus() {
         if (isBlocked) {
             semester.setFillColor(color);
             check.setStrokeColor(Colors.CHECKBOX);
@@ -89,23 +90,57 @@ public class Semester {
         } else {
             semester.setFillColor(Colors.BORDER_COLOR);
             check.setStrokeColor(Color.BLACK);
+            removeAllCourses();
             isBlocked = true;
         }
 
     }
 
-    public void addCourse(Course course){
-        if(courses.size() < 4 || isBlocked){
-        courses.add(course);
-        if (courses.size() > 1){
-            course.setPosition(semester.getX(), courses.get(courses.indexOf(course) - 1).getNextY() + MARGIN);
+    public void addCourse(Course course) {
+        if (courses.size() < 4 && !isBlocked) {
+            courses.add(course);
+            if (courses.size() > 1) {
+                course.setPosition(semester.getX(), courses.get(courses.indexOf(course) - 1).getNextY() + MARGIN);
+
+            } else
+                course.setPosition(semester.getX(), semester.getY() + MARGIN);// course.setCenter(semester.getCenter().getX(),
+                                                                              // semester.getY() + course.get + MARGIN);
+        } else{
+            course.returnToStartPos();
             
-        } else course.setPosition(semester.getX(), semester.getY() + MARGIN);//course.setCenter(semester.getCenter().getX(), semester.getY() + course.get + MARGIN);
+        }
+         
+
+        System.out.println(courses.size());
     }
-    }
-    public void removeCourse(Course course){
+
+    public void removeCourse(Course course) {
+        Course removedCourse = course;
         courses.remove(course);
-
+        shiftCourses(removedCourse);
+        System.out.println(courses.size());
     }
 
+    private void removeAllCourses(){
+        while(!courses.isEmpty()){
+            Course c = courses.get(0);
+            removeCourse(c);
+            c.returnToStartPos();
+            CourseManager.updatePercentComplete();
+        }
+}
+
+    private void shiftCourses(Course c) {
+        int removedCourse = courses.indexOf(c);
+        for (int i = removedCourse + 1; i < courses.size(); i++) {
+            Course current = courses.get(i);
+            if (i == 0) {
+                current.setPosition(semester.getX(), semester.getY() + MARGIN);
+            } else {
+                Course previous = courses.get(i - 1);
+                current.setPosition(semester.getX(), previous.getNextY() + MARGIN);
+            }
+
+        }
+    }
 }

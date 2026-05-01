@@ -12,16 +12,17 @@ public class SemesterManager {
 
     private static final int SPACING = 40;
     private static final int MARGIN = 40;
-    private static final int STARTINGX = 40;
+    private static final int STARTINGX = 60;
     private static final int STARTINGY = 80;
     private CanvasWindow canvas;
     private Rectangle panel;
-    private List<Semester> semesters;
+    private static List<Semester> semesters;
     private int numSemesters = 8;
     private Semester curSemester;
+    private static ArrayList<Course> coursesPlaced = new ArrayList<>();
     private List<Color> colors = new ArrayList<>(List.of(Colors.BROWN, Colors.PINK, Colors.GREEN, Colors.BLUE, Colors.GREEN));
 
-public SemesterManager(CanvasWindow canvas){
+    public SemesterManager(CanvasWindow canvas){
         this.canvas = canvas;
         semesters = new ArrayList<>();
         panelSetup();
@@ -53,29 +54,41 @@ public SemesterManager(CanvasWindow canvas){
         panel.setFillColor(Colors.SEMESTER_PANEL);
         canvas.add(panel);
         GraphicsText title = new GraphicsText("Semesters");
-        title.setFont("times new roman", FontStyle.PLAIN, 15);
+        title.setFont("courier new", FontStyle.PLAIN, 20);
         canvas.add(title);
-        title.setCenter(panel.getCenter().getX(), 20);
+        title.setCenter(panel.getCenter().getX(), panel.getHeight()*0.06);
     }
 
-    public boolean courseOverlaps(Course course){
+    public Semester courseOverlaps(Course course){
         for (Semester s : semesters) {
             if(course.isInBounds(s.getLeftX(), s.getTopY(), s.getLeftX() + s.getWidth(), s.getTopY() + s.getHeight())){
-                curSemester = s;
-                return true;
+                return s;
             } 
-        }return false;
+        } 
+        return null;
     }
 
-    public void remove(Course course){
-        if(curSemester!= null)  {
-        curSemester.removeCourse(course);
+    public void remove(Course course, Semester semester){
+        if(semester!=null){
+            if(semester.getCourses().contains(course)){
+                semester.removeCourse(course);
+            }
+       
+    }
+}
+
+    public void putCourseInSemester(Course course, Semester semester){
+        if(semester!= null && !semester.getCourses().contains(course))  {
+            semester.addCourse(course);
         }
     }
-    public void putCourseInSemester(Course course){
-        if(curSemester!= null)  {
-            curSemester.addCourse(course);
+
+    public static ArrayList<Course> allCoursesInAnySemester(){
+        ArrayList<Course> coursesPlaced = new ArrayList<>();
+        for(Semester s:semesters){
+            coursesPlaced.addAll(s.getCourses());
         }
+        return coursesPlaced;
     }
 
 }
