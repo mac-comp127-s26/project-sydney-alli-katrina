@@ -1,5 +1,6 @@
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 
 import edu.macalester.graphics.CanvasWindow;
 import edu.macalester.graphics.FontStyle;
@@ -7,6 +8,7 @@ import edu.macalester.graphics.GraphicsGroup;
 import edu.macalester.graphics.GraphicsText;
 import edu.macalester.graphics.Point;
 import edu.macalester.graphics.Rectangle;
+import java.text.DecimalFormat; 
 import edu.macalester.graphics.events.Key;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class CourseManager {
     private SemesterManager semesterManager;
     private Course selectedCourse;
     private static double percentComplete = 0;
+    public static final DecimalFormat ONE_DECIMAL_PLACE = new DecimalFormat("#0.0");
     static GraphicsText completenessTracker = new GraphicsText(
         "Percent Graduation Requirements Complete " + percentComplete + "%");
     private List<String> courseRequirements = List.of("Social Science", "Social Science",
@@ -137,12 +140,17 @@ public class CourseManager {
         double coursesSize = listOfCourses.size();
         if (placedSize > 0) {
             percentComplete = placedSize / coursesSize * 100;
-            completenessTracker.setText("Percent Graduation Requirements Complete " + percentComplete + "%");
+            String percentCompleteFormatted = FormatTemp(percentComplete);
+            completenessTracker.setText("Percent Graduation Requirements Complete " + percentCompleteFormatted + "%");
         } else {
             percentComplete = 0;
             completenessTracker.setText("Percent Graduation Requirements Complete " + percentComplete + "%");
         }
     }
 
+
+    public static String FormatTemp(Double value) {
+         return ONE_DECIMAL_PLACE.format(value);
+    }
 
 }
