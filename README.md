@@ -9,7 +9,7 @@ This repo creates a planner for a student at Macalester to plan what semester th
 # What does the expected output look like? You can use screenshots of the main windows of the software.
 
 # Presentation video:
-(Watch Video Here)[https://drive.google.com/file/d/1Lv-JFipOGpGzFTCCnrRGxcW6P_tnIi-D/view?usp=sharing]
+[Watch Video Here](https://drive.google.com/file/d/1Lv-JFipOGpGzFTCCnrRGxcW6P_tnIi-D/view?usp=sharing)
 
 # Presentation slides:
 
