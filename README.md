@@ -13,11 +13,12 @@ Github desktop: Version 3.5.4 (x64)
 - Set VSCode up to use Java and Github
   
 # What does the expected output look like? You can use screenshots of the main windows of the software.
+![Image](res/Screenshot 2026-05-04 122724.png)
 
 # Presentation video:
 =======
 [Watch Video Here](https://drive.google.com/file/d/1Lv-JFipOGpGzFTCCnrRGxcW6P_tnIi-D/view?usp=sharing)
->>>>>>> 7b867008472ce42ee0fee86e21cfb13562d2c48d
+
 
 # Presentation slides:
 [Slides](https://docs.google.com/presentation/d/1Imuj9KBNTF5zVduivKXQXu8mAVqyeOuGfjwsOiVStSg/edit?usp=sharing)
