@@ -12,7 +12,7 @@ This repo creates a planner for a student at Macalester to plan what semester th
 [Watch Video Here](https://drive.google.com/file/d/1Lv-JFipOGpGzFTCCnrRGxcW6P_tnIi-D/view?usp=sharing)
 
 # Presentation slides:
-
+[Slides](https://docs.google.com/presentation/d/1Imuj9KBNTF5zVduivKXQXu8mAVqyeOuGfjwsOiVStSg/edit?usp=sharing)
 # What known limitations does the software currently suffer from, eg, known bugs or cases that the software can not currently handle?
 
 # What resources were referenced while developing the software?
