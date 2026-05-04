@@ -1,3 +1,18 @@
 # Graduation Planner
+# What is this GitHub repository all about?
+This repo creates a planner for a student at Macalester to plan what semester they want to take required courses. It first prompts the user to enter the first 4 letters of their major name and then populates a planner with all the general and major graduation requirements. The user interface allows users to click and drag courses into semesters and tracks what percentage of requirements they've met.
 
-Info about your project goes here
+# What software (with the version numbers) need to be installed to run the code contained in this GitHub repository, eg, openjdk 25.0.1 2025-10-21 LTS and VSCode 1.115.0
+
+# What steps need to be taken to run the code contained in this GitHub repository? Think about the steps you did at the beginning of the semester to prepare your machine for class.
+
+# What does the expected output look like? You can use screenshots of the main windows of the software.
+
+# Presentation video:
+
+# Presentation slides:
+
+# What known limitations does the software currently suffer from, eg, known bugs or cases that the software can not currently handle?
+
+# What resources were referenced while developing the software?
+
