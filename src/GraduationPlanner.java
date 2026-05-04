@@ -1,5 +1,4 @@
 import edu.macalester.graphics.CanvasWindow;
-import java.awt.Color;
 
 public class GraduationPlanner {
     private static final int CANVAS_WIDTH = 1100;
